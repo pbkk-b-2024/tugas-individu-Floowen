@@ -6,11 +6,24 @@
                <span class="ms-3">Home</span>
             </a>
          </li>
+          <li>
+              <a href="{{ route('item') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Items</span>
+              </a>
+          </li>
          <li>
             <a href="{{ route('listusers') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
             </a>
          </li>
+          <li>
+              @if(Auth::check())
+                  <form method="POST" action="{{ route('logout') }}">
+                      @csrf
+                      <button type="submit" class="flex items-center py-2 px-5 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">Logout</button>
+                  </form>
+              @endif
+          </li>
       </ul>
    </div>
 </aside>

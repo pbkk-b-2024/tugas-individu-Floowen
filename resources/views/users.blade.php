@@ -5,9 +5,11 @@
 @section("content")
     <div class="content">
         <h1 class="font-bold text-3xl">Users</h1><br>
-        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="{{ route('addusers') }}">Add a User</a>
-        <br><br>
-        <form class="max-w-md">   
+        @if(Auth::user()->role == "Admin")
+            <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="{{ route('addusers') }}">Add a User</a>
+            <br><br>
+        @endif
+        <form class="max-w-md">
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -21,7 +23,7 @@
         </form>
 
         <div class="my-4 max-w-fit">
-            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> 
+            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <table class="table-fixed text-white [&_:is(th,td):where(:nth-child(2),:nth-child(4))]:text-center border-separate border-spacing-x-5 border-spacing-y-3">
             <thead>
                 <tr>
@@ -36,13 +38,15 @@
                 <td>{{ $user -> name }}</td>
                 <td>{{ $user -> email }}</td>
                 <td>{{ $user -> role }}</td>
-                <td><a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/user/{{ $user -> id }}">Update</a></td>
-                <td><a class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" href="/delete/{{ $user -> id }}">Delete</a></td>
+                    @if(Auth::user()->role == "Admin")
+                        <td><a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/user/{{ $user -> id }}">Update</a></td>
+                        <td><a class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" href="/delete/{{ $user -> id }}">Delete</a></td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
             </table>
-                <div class="text-white d-flex">
+                <div class="text-white">
                     {{ $userdata->links() }}
                 </div>
             </div>

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
 
 class FPController extends Controller
 {
-    
+
     public function listusers(Request $request){
 
         if($request->has('search')){
@@ -22,6 +23,16 @@ class FPController extends Controller
     public function addusers(){
 
         return view('addusers');
+    }
+
+    public function listItem(Request $request){
+
+        if($request->has('search')){
+            $postData = Posts::where('title','like','%'.$request->search.'%')->paginate(6);
+        }else{
+            $postData = Posts::paginate(6);
+        }
+        return view('item',compact('postData'));
     }
 
     public function insertUser(Request $request){
@@ -46,6 +57,7 @@ class FPController extends Controller
         $data->name = $request->name;
         $data->email = $request->email;
         $data->password = $request->password;
+        $data->role = $request->role;
         $data->save();
         return redirect()->route('listusers')->with('success','Data Updated Successfully');
     }
